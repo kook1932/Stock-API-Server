@@ -1,5 +1,7 @@
 package it.numble.toss.config;
 
+import it.numble.toss.config.jwt.JwtAccessDeniedHandler;
+import it.numble.toss.config.jwt.JwtAuthenticationEntryPoint;
 import it.numble.toss.config.jwt.JwtSecurityConfig;
 import it.numble.toss.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final TokenProvider tokenProvider;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -28,6 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()
 
+				.exceptionHandling()
+				.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+				.accessDeniedHandler(jwtAccessDeniedHandler)
+
+				.and()
 				.headers()
 				.frameOptions()
 				.sameOrigin()
@@ -38,6 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.and()
 				.authorizeRequests()
+				.antMatchers("/api/authenticate").permitAll()
+				.antMatchers("/api/signup").permitAll()
 				.anyRequest().authenticated()
 
 				.and()

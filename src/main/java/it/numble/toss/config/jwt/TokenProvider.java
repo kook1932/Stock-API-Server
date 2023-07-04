@@ -32,14 +32,12 @@ public class TokenProvider {
 						 @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
 		this.secret = secret;
 		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
-		log.debug("[TokenProvider >> Construct]");
 	}
 
 	@PostConstruct
 	private void init() {
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
-		log.debug("[TokenProvider >> Initialize]");
 	}
 
 	public String createToken(Authentication authentication) {
