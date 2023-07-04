@@ -35,12 +35,13 @@ public class AuthController {
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String jwt = tokenProvider.createToken(authentication);
+		String accessToken = tokenProvider.createAccessToken(authentication);
+		String refreshToken = tokenProvider.createRefreshToken(authentication);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + jwt);
+		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + accessToken);
 
-		return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(new TokenDto(accessToken, refreshToken), httpHeaders, HttpStatus.OK);
 
 	}
 }

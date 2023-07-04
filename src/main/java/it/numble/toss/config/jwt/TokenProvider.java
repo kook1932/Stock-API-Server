@@ -25,13 +25,16 @@ public class TokenProvider {
 
 	public static final String AUTHORITIES_KEY = "auth";
 	private final String secret;
-	private final long tokenValidityInMilliseconds;
+	private final long accessTokenValidityInMilliseconds;
+	private final long refreshTokenValidityInMilliseconds;
 	private Key key;
 
 	public TokenProvider(@Value("${jwt.secret}") String secret,
-						 @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+						 @Value("${jwt.token-validity-in-seconds-atk}") long accessTokenValidityInSeconds,
+						 @Value("${jwt.token-validity-in-seconds-rtk}") long refreshTokenValidityInSeconds) {
 		this.secret = secret;
-		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+		this.accessTokenValidityInMilliseconds = accessTokenValidityInSeconds * 1000;
+		this.refreshTokenValidityInMilliseconds = refreshTokenValidityInSeconds * 1000;
 	}
 
 	@PostConstruct
@@ -40,17 +43,30 @@ public class TokenProvider {
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public String createToken(Authentication authentication) {
+	public String createAccessToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
 
 		long now = (new Date()).getTime();
-		Date validity = new Date(now + this.tokenValidityInMilliseconds);
+		Date validity = new Date(now + this.accessTokenValidityInMilliseconds);
 
 		return Jwts.builder()
 				.setSubject(authentication.getName())
+				.setHeaderParam("typ", "ATK")
 				.claim(AUTHORITIES_KEY, authorities)
+				.signWith(key, SignatureAlgorithm.HS512)
+				.setExpiration(validity)
+				.compact();
+	}
+
+	public String createRefreshToken(Authentication authentication) {
+		long now = (new Date()).getTime();
+		Date validity = new Date(now + this.refreshTokenValidityInMilliseconds);
+
+		return Jwts.builder()
+				.setSubject(authentication.getName())
+				.setHeaderParam("typ", "RTK")
 				.signWith(key, SignatureAlgorithm.HS512)
 				.setExpiration(validity)
 				.compact();
