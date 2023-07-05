@@ -28,8 +28,13 @@ public class AuthController {
 	private final TokenProvider tokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-	@PostMapping("/authenticate")
-	public ResponseEntity<TokenDto> authenticate(@Valid @RequestBody LoginDto loginDto) {
+	/**
+	 * ID, PW 기반으로 로그인하여 인증하는 API<br>
+	 * @param loginDto username, password
+	 * @return ResponseEntity - accessToken, refreshToken
+	 */
+	@PostMapping("/signin")
+	public ResponseEntity<TokenDto> signin(@Valid @RequestBody LoginDto loginDto) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -42,6 +47,19 @@ public class AuthController {
 		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + accessToken);
 
 		return new ResponseEntity<>(new TokenDto(accessToken, refreshToken), httpHeaders, HttpStatus.OK);
-
 	}
+
+	/**
+	 * AccessToken 만료시 재발급하는 API
+	 * @param refreshToken
+	 * @return ResponseEntity - accessToken
+	 */
+	@PostMapping("/reissue/access-token")
+	public ResponseEntity<TokenDto> reissueAccessToken(@RequestBody String refreshToken) {
+		// token 유효성 검증은 JwtFilter 에서 실행
+		// user db 에서 refresh token 값 조회
+		return null;
+	}
+
+	//@PostMapping("/reissue/refresh-token")
 }
