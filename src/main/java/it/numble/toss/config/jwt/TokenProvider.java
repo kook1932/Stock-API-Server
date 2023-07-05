@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +45,15 @@ public class TokenProvider {
 	}
 
 	public String createAccessToken(Authentication authentication) {
-		String authorities = authentication.getAuthorities().stream()
+		return generateAccessToken(authentication.getName(), authentication.getAuthorities());
+	}
+
+	public String reissueAccessToken(String id, Collection<? extends GrantedAuthority> authorities) {
+		return generateAccessToken(id, authorities);
+	}
+
+	private String generateAccessToken(String id, Collection<? extends GrantedAuthority> authoritiesCollection) {
+		String authorities = authoritiesCollection.stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
 
@@ -52,7 +61,7 @@ public class TokenProvider {
 		Date validity = new Date(now + this.accessTokenValidityInMilliseconds);
 
 		return Jwts.builder()
-				.setSubject(authentication.getName())
+				.setSubject(id)
 				.setHeaderParam("typ", "ATK")
 				.claim(AUTHORITIES_KEY, authorities)
 				.signWith(key, SignatureAlgorithm.HS512)

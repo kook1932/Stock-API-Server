@@ -2,6 +2,8 @@ package it.numble.toss.biz.controller;
 
 import it.numble.toss.biz.dto.LoginDto;
 import it.numble.toss.biz.dto.TokenDto;
+import it.numble.toss.biz.entity.RefreshToken;
+import it.numble.toss.biz.service.TokenService;
 import it.numble.toss.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +27,7 @@ import static it.numble.toss.config.jwt.JwtFilter.AUTHORIZATION_HEADER;
 @RestController
 public class AuthController {
 
-	private final TokenProvider tokenProvider;
+	private final TokenService tokenService;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	/**
@@ -40,13 +42,18 @@ public class AuthController {
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String accessToken = tokenProvider.createAccessToken(authentication);
-		String refreshToken = tokenProvider.createRefreshToken(authentication);
-
+		TokenDto token = tokenService.createAllToken(authentication);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + accessToken);
+		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + token.getAccessToken());
+		
+		RefreshToken refreshToken = RefreshToken.builder()
+				.id(loginDto.getUsername())
+				.authorities(authentication.getAuthorities())
+				.refreshToken(token.getRefreshToken())
+				.build();
+		tokenService.saveRefreshToken(refreshToken);
 
-		return new ResponseEntity<>(new TokenDto(accessToken, refreshToken), httpHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(token, httpHeaders, HttpStatus.OK);
 	}
 
 	/**
@@ -56,9 +63,15 @@ public class AuthController {
 	 */
 	@PostMapping("/reissue/access-token")
 	public ResponseEntity<TokenDto> reissueAccessToken(@RequestBody String refreshToken) {
-		// token 유효성 검증은 JwtFilter 에서 실행
-		// user db 에서 refresh token 값 조회
-		return null;
+		String accessToken = tokenService.reissueAccessToken(refreshToken);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + accessToken);
+		TokenDto tokenDto = TokenDto.builder()
+				.accessToken(accessToken)
+				.build();
+
+		return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
 	}
 
 	//@PostMapping("/reissue/refresh-token")
