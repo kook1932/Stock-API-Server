@@ -3,9 +3,11 @@ package it.numble.toss.biz.controller;
 import it.numble.toss.biz.dto.LoginDto;
 import it.numble.toss.biz.dto.TokenDto;
 import it.numble.toss.biz.entity.RefreshToken;
+import it.numble.toss.biz.repository.RefreshTokenRedisRepository;
 import it.numble.toss.biz.service.TokenService;
 import it.numble.toss.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +22,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static it.numble.toss.config.jwt.JwtFilter.AUTHORIZATION_HEADER;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
 public class AuthController {
 
 	private final TokenService tokenService;
+	private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	/**
-	 * ID, PW 기반으로 로그인하여 인증하는 API<br>
+	 * ID, PW 기반으로 로그인하여 인증하는 API
 	 * @param loginDto username, password
-	 * @return ResponseEntity - accessToken, refreshToken
+	 * @return ResponseEntity - TokenDto(accessToken, refreshToken)
 	 */
 	@PostMapping("/signin")
 	public ResponseEntity<TokenDto> signin(@Valid @RequestBody LoginDto loginDto) {
@@ -58,20 +65,20 @@ public class AuthController {
 
 	/**
 	 * AccessToken 만료시 재발급하는 API
-	 * @param refreshToken
-	 * @return ResponseEntity - accessToken
+	 * @param tokenDto refreshToken
+	 * @return Map - accessToken
 	 */
 	@PostMapping("/reissue/access-token")
-	public ResponseEntity<TokenDto> reissueAccessToken(@RequestBody String refreshToken) {
-		String accessToken = tokenService.reissueAccessToken(refreshToken);
+	public ResponseEntity<Map<String, String>> reissueAccessToken(@RequestBody TokenDto tokenDto) {
+		String accessToken = tokenService.reissueAccessToken(tokenDto.getRefreshToken());
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + accessToken);
-		TokenDto tokenDto = TokenDto.builder()
-				.accessToken(accessToken)
-				.build();
 
-		return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
+		Map<String, String> reissueToken = new HashMap<>();
+		reissueToken.put("accessToken", accessToken);
+
+		return new ResponseEntity<>(reissueToken, httpHeaders, HttpStatus.OK);
 	}
 
 	//@PostMapping("/reissue/refresh-token")
