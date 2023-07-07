@@ -2,10 +2,11 @@ package it.numble.toss.biz.controller;
 
 import it.numble.toss.biz.dto.LoginDto;
 import it.numble.toss.biz.dto.TokenDto;
+import it.numble.toss.biz.dto.UserDto;
 import it.numble.toss.biz.entity.RefreshToken;
-import it.numble.toss.biz.repository.RefreshTokenRedisRepository;
+import it.numble.toss.biz.entity.User;
 import it.numble.toss.biz.service.TokenService;
-import it.numble.toss.config.jwt.TokenProvider;
+import it.numble.toss.biz.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ import static it.numble.toss.config.jwt.JwtFilter.AUTHORIZATION_HEADER;
 public class AuthController {
 
 	private final TokenService tokenService;
-	private final RefreshTokenRedisRepository refreshTokenRedisRepository;
+	private final UserService userService;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	/**
@@ -64,6 +64,16 @@ public class AuthController {
 	}
 
 	/**
+	 * 회원가입 API
+	 * @param userDto username, password
+	 * @return ResponseEntity
+	 */
+	@PostMapping("/signup")
+	public ResponseEntity<User> signup(@Valid @RequestBody UserDto userDto) {
+		return ResponseEntity.ok(userService.signup(userDto));
+	}
+
+	/**
 	 * AccessToken 만료시 재발급하는 API
 	 * @param tokenDto refreshToken
 	 * @return Map - accessToken
@@ -81,5 +91,4 @@ public class AuthController {
 		return new ResponseEntity<>(reissueToken, httpHeaders, HttpStatus.OK);
 	}
 
-	//@PostMapping("/reissue/refresh-token")
 }
