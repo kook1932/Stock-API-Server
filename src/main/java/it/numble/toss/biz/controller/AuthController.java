@@ -2,9 +2,7 @@ package it.numble.toss.biz.controller;
 
 import it.numble.toss.biz.dto.LoginDto;
 import it.numble.toss.biz.dto.TokenDto;
-import it.numble.toss.biz.dto.UserDto;
 import it.numble.toss.biz.entity.RefreshToken;
-import it.numble.toss.biz.entity.User;
 import it.numble.toss.biz.service.TokenService;
 import it.numble.toss.biz.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -61,16 +59,6 @@ public class AuthController {
 		tokenService.saveRefreshToken(refreshToken);
 
 		return new ResponseEntity<>(token, httpHeaders, HttpStatus.OK);
-	}
-
-	/**
-	 * 회원가입 API
-	 * @param userDto username, password
-	 * @return ResponseEntity
-	 */
-	@PostMapping("/signup")
-	public ResponseEntity<User> signup(@Valid @RequestBody UserDto userDto) {
-		return ResponseEntity.ok(userService.signup(userDto));
 	}
 
 	/**

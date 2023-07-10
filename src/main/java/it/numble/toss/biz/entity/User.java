@@ -28,12 +28,8 @@ public class User {
 	@Column(name = "password", length = 100)
 	private String password;
 
-	@Column(name = "nickname", length = 50)
-	private String nickname;
-
-	@JsonIgnore
-	@Column(name = "activated")
-	private boolean activated;
+	@Column(name = "birthDay", length = 8)
+	private String birthDay;
 
 	@ManyToMany
 	@JoinTable(

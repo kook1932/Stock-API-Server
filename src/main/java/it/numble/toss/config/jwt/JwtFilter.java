@@ -17,7 +17,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-	public static final String AUTHORIZATION_HEADER = "Authorication";
+	public static final String AUTHORIZATION_HEADER = "Authorization";
 	private final String REISSUE_URI = "/api/reissue/access-token";
 
 	private final TokenProvider tokenProvider;
@@ -43,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-		return StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer") ? bearerToken.substring(8) : "";
+		return StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer") ? bearerToken.substring(7) : "";
 	}
 
 	private boolean isReissue(String requestURI) {
