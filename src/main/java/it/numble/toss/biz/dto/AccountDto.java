@@ -6,7 +6,7 @@ import it.numble.toss.biz.entity.Account;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class AccountDto {
 	@NotBlank
 	private String accountNumber;
 
-	@Positive
+	@PositiveOrZero
 	private Long balance;
 
 	public static AccountDto from(Account account) {
