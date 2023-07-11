@@ -25,7 +25,7 @@ public class UserController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/signup")
-	public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) throws CommonException {
 		return ResponseEntity.ok(UserDto.from(userService.signup(userDto)));
 	}
 

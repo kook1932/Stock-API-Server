@@ -22,9 +22,9 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
-	public User signup(UserDto userDto) {
+	public User signup(UserDto userDto) throws CommonException {
 		if (userRepository.findOneAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
-			throw new RuntimeException("이미 가입되어 있는 사용자입니다.");
+			throw new CommonException(Constants.ExceptionClass.User, HttpStatus.BAD_REQUEST, "이미 가입되어 있는 사용자입니다.");
 		}
 
 		Authority authority = Authority.builder()

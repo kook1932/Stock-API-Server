@@ -1,5 +1,5 @@
-insert into "user" (username, password, birth_day) values ('admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '19940606');
-insert into "user" (username, password, birth_day) values ('user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', '19940606');
+insert into "user" (username, password, birth_day) values ('admin', '$2a$10$g3h1dpG5l/DvWFRMvlTPnOsRhLMUXqY5R6sgEuEy9LWez9PZ5FGPq', '19940606');
+insert into "user" (username, password, birth_day) values ('user', '$2a$10$K7k28XApvsMUkOg4hRuZ1.fiPFLLSVuoqXES.ENyIQiwrE/eiFGJy', '19940606');
 
 insert into authority (authority_name) values ('ROLE_USER');
 insert into authority (authority_name) values ('ROLE_ADMIN');
