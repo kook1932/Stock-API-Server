@@ -22,15 +22,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepository.findOneAuthoritiesByUsername(username)
-				.map(user -> creatUser(username, user))
+				.map(user -> creatUser(user.getUserId(), user))
 				.orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
 	}
 
-	private org.springframework.security.core.userdetails.User creatUser(String username, User user) {
+	private org.springframework.security.core.userdetails.User creatUser(Long userId, User user) {
 		List<GrantedAuthority> authorities = user.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
 				.collect(Collectors.toList());
 
-		return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+		return new org.springframework.security.core.userdetails.User(Long.toString(userId), user.getPassword(), authorities);
 	}
 }
