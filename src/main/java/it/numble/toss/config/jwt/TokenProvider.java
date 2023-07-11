@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.security.Key;
@@ -95,6 +96,19 @@ public class TokenProvider {
 
 		User principle = new User(claims.getSubject(), "", authorities);
 		return new UsernamePasswordAuthenticationToken(principle, token, authorities);
+	}
+
+	public Long getUserId(String token) {
+		if (!StringUtils.hasText(token)) throw new RuntimeException("Token 이 없습니다.");
+
+		token = token.substring(7);
+		return (Long) Jwts
+				.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(token)
+				.getHeader()
+				.get("sub");
 	}
 
 	public boolean validateToken(String token) {

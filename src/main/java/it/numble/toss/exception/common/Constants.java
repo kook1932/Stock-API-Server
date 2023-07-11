@@ -7,7 +7,8 @@ public class Constants {
 
 	@Getter @AllArgsConstructor
 	public enum ExceptionClass {
-		User("User");
+		User("User"),
+		Account("Account");
 
 		private String exceptionClass;
 

@@ -24,7 +24,7 @@ public class Account {
 	@Column(name = "bank", length = 50)
 	private String bank;
 
-	@Column(name = "accountNumber", length = 50)
+	@Column(name = "account_number", length = 50, unique = true)
 	private String accountNumber;
 
 	@Column(name = "balance")

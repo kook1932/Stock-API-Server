@@ -31,14 +31,14 @@ public class UserService {
 				.authorityName("ROLE_USER")
 				.build();
 
-		User user = User.builder()
+		User newUser = User.builder()
 				.username(userDto.getUsername())
 				.password(passwordEncoder.encode(userDto.getPassword()))
 				.birthDay(userDto.getBirthDay())
 				.authorities(Collections.singleton(authority))
 				.build();
 
-		return userRepository.save(user);
+		return userRepository.save(newUser);
 	}
 
 	@Transactional
