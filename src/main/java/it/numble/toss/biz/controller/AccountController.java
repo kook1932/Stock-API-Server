@@ -1,6 +1,7 @@
 package it.numble.toss.biz.controller;
 
 import it.numble.toss.biz.dto.AccountDto;
+import it.numble.toss.biz.dto.TransferDto;
 import it.numble.toss.biz.service.AccountService;
 import it.numble.toss.config.jwt.TokenProvider;
 import it.numble.toss.exception.common.CommonException;
@@ -53,5 +54,15 @@ public class AccountController {
 		Map<String, String> result = new HashMap<>();
 		result.put("status", "200");
 		return ResponseEntity.ok(result);
+	}
+
+	// TODO : token userId 추출 추상화 -> annotation
+	@PostMapping("/transfer")
+	public ResponseEntity<Map<String, Long>> transfer(@Valid @RequestBody TransferDto transferDto) throws CommonException {
+		Long tokenUserId = tokenProvider.getUserId(request.getHeader(AUTHORIZATION_HEADER));
+
+		Map<String, Long> responseBody = new HashMap<>();
+		responseBody.put("balance", accountService.transfer(tokenUserId, transferDto));
+		return ResponseEntity.ok(responseBody);
 	}
 }

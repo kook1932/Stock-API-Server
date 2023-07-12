@@ -34,25 +34,27 @@ public class Account {
 	@Column(name = "balance")
 	private Long balance;
 
-	/* 송금 
-	* 1. 기존 계좌에서 돈을 빼고, 잔액이 남는지 확인, 남는다면 잔액 변화, transaction 기록 
-	* 2. 남지 않는다면 예외
-	* 3. 수신자 계좌 조회 후, 잔액 플러스 */
-	private boolean isOverBalance(Long amount) {
-		return balance - amount > 0;
-	}
-
-	public Long removeBalance(TransferDto transferDto) throws CommonException {
-		if (!isOverBalance(transferDto.getAmount())) {
+	public Long removeBalance(Long amount) throws CommonException {
+		if (!isOverBalance(amount)) {
 			throw new CommonException(Constants.ExceptionClass.Account, HttpStatus.BAD_REQUEST, "계좌에 잔액이 부족합니다.");
 		}
-		balance -= transferDto.getAmount();
+		balance -= amount;
 		return balance;
 	}
 
-	public Long addBalance(TransferDto transferDto) {
-		balance += transferDto.getAmount();
+	public Long addBalance(Long amount) {
+		balance += amount;
 		return balance;
+	}
+
+	// token 내 userId 와 account 내 userId 검증
+	public void isMyAccount(Long tokenUserId) throws CommonException {
+		if (tokenUserId != userId)
+			throw new CommonException(Constants.ExceptionClass.Account, HttpStatus.BAD_REQUEST, "계좌 정보가 일치하지 않습니다.");
+	}
+
+	private boolean isOverBalance(Long amount) {
+		return balance - amount >= 0;
 	}
 
 }
