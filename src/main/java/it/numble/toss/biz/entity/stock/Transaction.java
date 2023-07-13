@@ -1,8 +1,10 @@
 package it.numble.toss.biz.entity.stock;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transaction")
@@ -16,6 +18,9 @@ public class Transaction {
 	@Id
 	private Long id;
 
+	@Column(name = "account_id")
+	private Long accountId;
+
 	@Enumerated(EnumType.STRING)
 	@Column
 	private TransactionType type;
@@ -25,4 +30,7 @@ public class Transaction {
 
 	@Column
 	private Long balance;
+
+	@CreatedDate
+	private LocalDateTime createdAt;
 }

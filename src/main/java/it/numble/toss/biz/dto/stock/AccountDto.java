@@ -7,6 +7,8 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -30,6 +32,8 @@ public class AccountDto {
 	@PositiveOrZero
 	private Long balance;
 
+	private List<TransactionDto> transactions;
+
 	public static AccountDto from(Account account) {
 		if (account == null) return null;
 
@@ -38,6 +42,20 @@ public class AccountDto {
 				.bank(account.getBank())
 				.accountNumber(account.getAccountNumber())
 				.balance(account.getBalance())
+				.build();
+	}
+
+	public static AccountDto fromWithTransactions(Account account) {
+		if (account == null) return null;
+
+		return AccountDto.builder()
+				.id(account.getId())
+				.bank(account.getBank())
+				.accountNumber(account.getAccountNumber())
+				.balance(account.getBalance())
+				.transactions(account.getTransactions().stream()
+						.map(TransactionDto::from)
+						.collect(Collectors.toList()))
 				.build();
 	}
 

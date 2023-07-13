@@ -40,6 +40,11 @@ public class AccountController {
 		return ResponseEntity.ok(responseBody);
 	}
 
+	@GetMapping("/account/{id}")
+	public ResponseEntity<AccountDto> findById(@PathVariable Long id) {
+		return ResponseEntity.ok(accountService.findAllByAccountIdWithTransactions(id));
+	}
+
 	@PostMapping("/account")
 	public ResponseEntity<AccountDto> saveAccount(@Valid @RequestBody AccountDto accountDto) throws CommonException {
 		Long userId = tokenProvider.getUserId(request.getHeader(AUTHORIZATION_HEADER));

@@ -2,7 +2,10 @@ package it.numble.toss.biz.service;
 
 import it.numble.toss.biz.dto.stock.TransferDto;
 import it.numble.toss.biz.entity.stock.Account;
+import it.numble.toss.biz.entity.stock.Transaction;
+import it.numble.toss.biz.entity.stock.TransactionType;
 import it.numble.toss.biz.repository.stock.AccountRepository;
+import it.numble.toss.biz.repository.stock.TransactionRepository;
 import it.numble.toss.biz.service.stock.AccountService;
 import it.numble.toss.exception.common.CommonException;
 import org.assertj.core.api.Assertions;
@@ -24,6 +27,9 @@ class AccountServiceTest {
 
 	@Mock
 	AccountRepository accountRepository;
+
+	@Mock
+	TransactionRepository transactionRepository;
 
 	@InjectMocks
 	AccountService accountService;
@@ -52,7 +58,7 @@ class AccountServiceTest {
 		// given
 		TransferDto transferDto = TransferDto.builder()
 				.accountId(1L)
-				.amount(5000L)
+				.amount(7000L)
 				.receiverAccountNumber(receiverAccount.getAccountNumber())
 				.build();
 
@@ -63,8 +69,7 @@ class AccountServiceTest {
 		Long balance = accountService.transfer(tokenUserId, transferDto);
 
 		// then
-		Assertions.assertThat(balance).isEqualTo(5000L);
-
+		Assertions.assertThat(balance).isEqualTo(3000L);
 	}
 
 

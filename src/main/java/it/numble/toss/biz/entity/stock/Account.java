@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -32,6 +33,10 @@ public class Account {
 
 	@Column(name = "balance")
 	private Long balance;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "account_id")
+	private List<Transaction> transactions;
 
 	public Long removeBalance(Long amount) throws CommonException {
 		if (!isOverBalance(amount)) {
