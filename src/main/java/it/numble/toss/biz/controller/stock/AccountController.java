@@ -1,8 +1,8 @@
-package it.numble.toss.biz.controller;
+package it.numble.toss.biz.controller.stock;
 
-import it.numble.toss.biz.dto.AccountDto;
-import it.numble.toss.biz.dto.TransferDto;
-import it.numble.toss.biz.service.AccountService;
+import it.numble.toss.biz.dto.stock.AccountDto;
+import it.numble.toss.biz.dto.stock.TransferDto;
+import it.numble.toss.biz.service.stock.AccountService;
 import it.numble.toss.config.jwt.TokenProvider;
 import it.numble.toss.exception.common.CommonException;
 import lombok.RequiredArgsConstructor;

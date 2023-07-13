@@ -1,6 +1,6 @@
-package it.numble.toss.biz.repository;
+package it.numble.toss.biz.repository.user;
 
-import it.numble.toss.biz.entity.User;
+import it.numble.toss.biz.entity.user.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,5 @@
-package it.numble.toss.biz.entity;
+package it.numble.toss.biz.entity.stock;
 
-import it.numble.toss.biz.dto.TransferDto;
 import it.numble.toss.exception.common.CommonException;
 import it.numble.toss.exception.common.Constants;
 import lombok.*;

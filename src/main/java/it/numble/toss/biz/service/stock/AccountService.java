@@ -1,9 +1,9 @@
-package it.numble.toss.biz.service;
+package it.numble.toss.biz.service.stock;
 
-import it.numble.toss.biz.dto.AccountDto;
-import it.numble.toss.biz.dto.TransferDto;
-import it.numble.toss.biz.entity.Account;
-import it.numble.toss.biz.repository.AccountRepository;
+import it.numble.toss.biz.dto.stock.AccountDto;
+import it.numble.toss.biz.dto.stock.TransferDto;
+import it.numble.toss.biz.entity.stock.Account;
+import it.numble.toss.biz.repository.stock.AccountRepository;
 import it.numble.toss.exception.common.CommonException;
 import it.numble.toss.exception.common.Constants;
 import lombok.RequiredArgsConstructor;

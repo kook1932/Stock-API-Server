@@ -1,8 +1,8 @@
-package it.numble.toss.biz.dto;
+package it.numble.toss.biz.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.numble.toss.biz.entity.Account;
+import it.numble.toss.biz.entity.stock.Account;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

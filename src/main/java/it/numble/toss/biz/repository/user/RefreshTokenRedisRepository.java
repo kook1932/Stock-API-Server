@@ -1,6 +1,6 @@
-package it.numble.toss.biz.repository;
+package it.numble.toss.biz.repository.user;
 
-import it.numble.toss.biz.entity.RefreshToken;
+import it.numble.toss.biz.entity.user.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

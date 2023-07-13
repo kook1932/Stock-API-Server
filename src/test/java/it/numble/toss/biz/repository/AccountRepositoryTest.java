@@ -1,6 +1,7 @@
 package it.numble.toss.biz.repository;
 
-import it.numble.toss.biz.entity.Account;
+import it.numble.toss.biz.entity.stock.Account;
+import it.numble.toss.biz.repository.stock.AccountRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
-package it.numble.toss.biz.dto;
+package it.numble.toss.biz.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.numble.toss.biz.entity.User;
+import it.numble.toss.biz.entity.user.User;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
-package it.numble.toss.biz.service;
+package it.numble.toss.biz.service.user;
 
-import it.numble.toss.biz.entity.User;
-import it.numble.toss.biz.repository.UserRepository;
+import it.numble.toss.biz.entity.user.User;
+import it.numble.toss.biz.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

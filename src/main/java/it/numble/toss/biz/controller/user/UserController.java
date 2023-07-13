@@ -1,8 +1,7 @@
-package it.numble.toss.biz.controller;
+package it.numble.toss.biz.controller.user;
 
-import it.numble.toss.biz.dto.TokenDto;
-import it.numble.toss.biz.dto.UserDto;
-import it.numble.toss.biz.service.UserService;
+import it.numble.toss.biz.dto.user.UserDto;
+import it.numble.toss.biz.service.user.UserService;
 import it.numble.toss.exception.common.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

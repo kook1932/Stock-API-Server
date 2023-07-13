@@ -1,8 +1,9 @@
 package it.numble.toss.biz.service;
 
-import it.numble.toss.biz.dto.TransferDto;
-import it.numble.toss.biz.entity.Account;
-import it.numble.toss.biz.repository.AccountRepository;
+import it.numble.toss.biz.dto.stock.TransferDto;
+import it.numble.toss.biz.entity.stock.Account;
+import it.numble.toss.biz.repository.stock.AccountRepository;
+import it.numble.toss.biz.service.stock.AccountService;
 import it.numble.toss.exception.common.CommonException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

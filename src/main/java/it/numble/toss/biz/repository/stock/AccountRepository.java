@@ -1,6 +1,6 @@
-package it.numble.toss.biz.repository;
+package it.numble.toss.biz.repository.stock;
 
-import it.numble.toss.biz.entity.Account;
+import it.numble.toss.biz.entity.stock.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

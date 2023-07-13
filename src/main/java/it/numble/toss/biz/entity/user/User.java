@@ -1,6 +1,7 @@
-package it.numble.toss.biz.entity;
+package it.numble.toss.biz.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.numble.toss.biz.entity.stock.Account;
 import lombok.*;
 
 import javax.persistence.*;

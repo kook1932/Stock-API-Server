@@ -1,4 +1,4 @@
-package it.numble.toss.biz.entity;
+package it.numble.toss.biz.entity.user;
 
 import lombok.*;
 

@@ -1,8 +1,8 @@
-package it.numble.toss.biz.service;
+package it.numble.toss.biz.service.user;
 
-import it.numble.toss.biz.dto.TokenDto;
-import it.numble.toss.biz.entity.RefreshToken;
-import it.numble.toss.biz.repository.RefreshTokenRedisRepository;
+import it.numble.toss.biz.dto.user.TokenDto;
+import it.numble.toss.biz.entity.user.RefreshToken;
+import it.numble.toss.biz.repository.user.RefreshTokenRedisRepository;
 import it.numble.toss.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

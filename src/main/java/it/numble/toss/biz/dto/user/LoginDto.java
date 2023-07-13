@@ -1,4 +1,4 @@
-package it.numble.toss.biz.dto;
+package it.numble.toss.biz.dto.user;
 
 import lombok.*;
 

@@ -1,6 +1,7 @@
 package it.numble.toss.biz.repository;
 
-import it.numble.toss.biz.entity.RefreshToken;
+import it.numble.toss.biz.entity.user.RefreshToken;
+import it.numble.toss.biz.repository.user.RefreshTokenRedisRepository;
 import it.numble.toss.config.redis.EmbeddedRedisConfig;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.context.annotation.Import;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Import(EmbeddedRedisConfig.class)
 @DataRedisTest

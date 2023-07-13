@@ -1,9 +1,9 @@
-package it.numble.toss.biz.service;
+package it.numble.toss.biz.service.user;
 
-import it.numble.toss.biz.dto.UserDto;
-import it.numble.toss.biz.entity.Authority;
-import it.numble.toss.biz.entity.User;
-import it.numble.toss.biz.repository.UserRepository;
+import it.numble.toss.biz.dto.user.UserDto;
+import it.numble.toss.biz.entity.user.Authority;
+import it.numble.toss.biz.entity.user.User;
+import it.numble.toss.biz.repository.user.UserRepository;
 import it.numble.toss.exception.common.CommonException;
 import it.numble.toss.exception.common.Constants;
 import lombok.RequiredArgsConstructor;
